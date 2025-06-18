@@ -1,13 +1,6 @@
 import { MapPin, Phone, Mail, Linkedin } from "lucide-react";
-import { FormEvent } from "react";
 
 export default function Footer() {
-  const handleSubscribe = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Redirect to success newsletter page
-    window.location.href = "./successnewsletter";
-  };
-
   return (
     <footer className="bg-gradient-to-r from-gray-600 to-gray-950 text-gray-300 dark:from-red-600 dark:to-red-950 dark:text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -88,24 +81,19 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Newsletter */}
+          {/* Google Maps */}
           <div>
-            <h3 className="text-xl font-bold text-white mb-4">Newsletter</h3>
-            <p className="mb-4">Subscribe for logistics insights and updates</p>
-            <form onSubmit={handleSubscribe} className="flex">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="px-4 py-2 rounded-l-lg focus:outline-none text-gray-900 w-full"
-                required
-              />
-              <button
-                type="submit"
-                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-r-lg"
-              >
-                Subscribe
-              </button>
-            </form>
+            <h3 className="text-xl font-bold text-white mb-4">Our Location</h3>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3365.480708845099!2d74.50527647510937!3d32.48657869877318!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391eea1bd17dade5%3A0xbf4fecdf3fc66376!2sLONESONS%20LOGISTICS!5e0!3m2!1sen!2s!4v1749798534761!5m2!1sen!2s"
+              width="100%"
+              height="150"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="rounded-lg"
+            ></iframe>
           </div>
         </div>
 
