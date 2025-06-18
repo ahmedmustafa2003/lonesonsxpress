@@ -7,7 +7,7 @@ import QuotePage from "./pages/quotepage";
 // import BlogPage from "./pages/blogpage";
 import Track from "./pages/track";
 import SuccessPage from "./components/successpage";
-import Successnewsletter from "./components/successnewsletter";
+// import Successnewsletter from "./components/successnewsletter";
 import Successquote from "./components/successquote";
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
         {/* <Route path="/BlogPage" element={<BlogPage />} /> */}
         <Route path="/track" element={<Track />} />
         <Route path="/successpage" element={<SuccessPage />} />
-        <Route path="/successnewsletter" element={<Successnewsletter />} />
+        {/* <Route path="/successnewsletter" element={<Successnewsletter />} /> */}
         <Route path="/successquote" element={<Successquote />} />
       </Routes>
     </BrowserRouter>
