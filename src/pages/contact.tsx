@@ -179,10 +179,10 @@ const ContactPage = () => {
                       method.color === "blue"
                         ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
                         : method.color === "green"
-                        ? "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400"
-                        : method.color === "purple"
-                        ? "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400"
-                        : "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400"
+                          ? "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400"
+                          : method.color === "purple"
+                            ? "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400"
+                            : "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400"
                     }`}
                   >
                     {method.icon}
@@ -221,7 +221,45 @@ const ContactPage = () => {
                   <Send className="h-6 w-6 text-red-600 dark:text-red-400" />
                   <span>Send us a message</span>
                 </h2>
-                <form className="space-y-6">
+                <form
+                  className="space-y-6"
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    const form = e.currentTarget;
+                    const formData = new FormData(form);
+
+                    const dataToSend = {
+                      name: formData.get("name"),
+                      email: formData.get("email"),
+                      phone: formData.get("phone"),
+                      company: formData.get("company"),
+                      subject: formData.get("subject"),
+                      message: formData.get("message"),
+                    };
+
+                    try {
+                      const res = await fetch(
+                        "http://localhost:5000/send-contact-message",
+                        {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify(dataToSend),
+                        }
+                      );
+
+                      const result = await res.json();
+                      if (result.success) {
+                        alert("Message sent successfully!");
+                        form.reset(); // optional: clear form
+                      } else {
+                        alert("Failed to send message.");
+                      }
+                    } catch (err) {
+                      console.error("Error submitting contact message:", err);
+                      alert("Something went wrong!");
+                    }
+                  }}
+                >
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label
@@ -233,6 +271,7 @@ const ContactPage = () => {
                       <input
                         type="text"
                         id="name"
+                        name="name"
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all text-gray-900 dark:text-white"
                         placeholder="John Doe"
                       />
@@ -247,6 +286,7 @@ const ContactPage = () => {
                       <input
                         type="email"
                         id="email"
+                        name="email"
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all text-gray-900 dark:text-white"
                         placeholder="john@example.com"
                       />
@@ -263,6 +303,7 @@ const ContactPage = () => {
                       <input
                         type="tel"
                         id="phone"
+                        name="phone"
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all text-gray-900 dark:text-white"
                         placeholder="+1 (555) 123-4567"
                       />
@@ -277,6 +318,7 @@ const ContactPage = () => {
                       <input
                         type="text"
                         id="company"
+                        name="company"
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all text-gray-900 dark:text-white"
                         placeholder="Your Company"
                       />
@@ -291,6 +333,7 @@ const ContactPage = () => {
                     </label>
                     <select
                       id="subject"
+                      name="subject"
                       className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all text-gray-900 dark:text-white"
                     >
                       <option>General Inquiry</option>
@@ -309,6 +352,7 @@ const ContactPage = () => {
                     </label>
                     <textarea
                       id="message"
+                      name="message"
                       rows={5}
                       className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all text-gray-900 dark:text-white"
                       placeholder="Tell us how we can help you..."

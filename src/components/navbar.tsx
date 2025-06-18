@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
     { name: "About Us", href: "/about" },
     { name: "Services", href: "/service" },
     { name: "Contact", href: "/contact" },
-    { name: "Quote Calculator", href: "/quotepage" },
+    { name: "Quote Calculator", href: "/quote" },
     // { name: "Our News", href: "/blogpage" },
     { name: "Track Package", href: "/track" },
   ];
