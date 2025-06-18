@@ -438,7 +438,7 @@ function App() {
 
                     try {
                       const res = await fetch(
-                        "http://localhost:5000/send-comment",
+                        "http://localhost:5000/submit-user-comment",
                         {
                           method: "POST",
                           headers: { "Content-Type": "application/json" },
