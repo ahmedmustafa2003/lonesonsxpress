@@ -66,6 +66,9 @@ const scaleUp = {
 
 function App() {
   const navigate = useNavigate();
+  const [selectedRating, setSelectedRating] = React.useState(0);
+  const [hoveredRating, setHoveredRating] = React.useState(0);
+
   const services = [
     {
       icon: <Truck className="h-10 w-10" />,
@@ -420,43 +423,41 @@ function App() {
                   Share Your Experience
                 </h3>
                 <form
-                  name="user-experience"
-                  method="POST"
-                  data-netlify="true"
-                  netlify-honeypot="bot-field"
                   className="space-y-4"
                   onSubmit={async (e) => {
                     e.preventDefault();
                     const form = e.currentTarget;
                     const formData = new FormData(form);
 
-                    try {
-                      await fetch("/", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/x-www-form-urlencoded",
-                        },
-                        body: new URLSearchParams(formData as any).toString(),
-                      });
+                    const dataToSend = {
+                      name: formData.get("name"),
+                      email: formData.get("email"),
+                      rating: selectedRating,
+                      comment: formData.get("comment"),
+                    };
 
-                      navigate("/successpage"); // Navigate to success page
+                    try {
+                      const res = await fetch(
+                        "http://localhost:5000/send-comment",
+                        {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify(dataToSend),
+                        }
+                      );
+
+                      const result = await res.json();
+                      if (result.success) {
+                        navigate("/successpage");
+                      } else {
+                        alert("Failed to send email.");
+                      }
                     } catch (error) {
-                      console.error("Form submission error:", error);
+                      console.error("Submission Error:", error);
+                      alert("Something went wrong.");
                     }
                   }}
                 >
-                  {/* Netlify Required Hidden Fields */}
-                  <input
-                    type="hidden"
-                    name="form-name"
-                    value="user-experience"
-                  />
-                  <p className="hidden">
-                    <label>
-                      Don’t fill this out: <input name="bot-field" />
-                    </label>
-                  </p>
-
                   {/* Name Field */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -499,11 +500,18 @@ function App() {
                             name="rating"
                             value={star}
                             className="sr-only"
-                            required={star === 1} // one required field
+                            checked={selectedRating === star}
+                            onChange={() => setSelectedRating(star)}
                           />
                           <label
                             htmlFor={`star-${star}`}
-                            className="cursor-pointer text-gray-300 dark:text-gray-500 hover:text-yellow-400"
+                            className={`cursor-pointer transition-colors ${
+                              star <= (hoveredRating || selectedRating)
+                                ? "text-yellow-400 fill-yellow-400"
+                                : "text-gray-300 dark:text-gray-500"
+                            }`}
+                            onMouseEnter={() => setHoveredRating(star)}
+                            onMouseLeave={() => setHoveredRating(0)}
                           >
                             <Star className="h-6 w-6" />
                           </label>
