@@ -10,6 +10,7 @@ import SuccessPage from "./components/successpage";
 // import Successnewsletter from "./components/successnewsletter";
 import Successquote from "./components/successquote";
 import QuoteSection from "./pages/QuoteSection";
+import Successmesg from "./components/successmesg";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         {/* <Route path="/successnewsletter" element={<Successnewsletter />} /> */}
         <Route path="/successquote" element={<Successquote />} />
         <Route path="/quote" element={<QuoteSection />} />
+        <Route path="/successmesg" element={<Successmesg />} />
       </Routes>
     </BrowserRouter>
   );
