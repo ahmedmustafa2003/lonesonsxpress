@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { ThemeProvider } from "../contexts/themecontext";
 import Navbar from "../components/navbar";
 import {
@@ -97,6 +98,8 @@ const ContactPage = () => {
       email: "chicago@lonesonsxpress.com",
     },
   ];
+
+  const navigate = useNavigate();
 
   return (
     <ThemeProvider>
@@ -249,8 +252,7 @@ const ContactPage = () => {
 
                       const result = await res.json();
                       if (result.success) {
-                        alert("Message sent successfully!");
-                        form.reset(); // optional: clear form
+                        navigate("/successmesg");
                       } else {
                         alert("Failed to send message.");
                       }
